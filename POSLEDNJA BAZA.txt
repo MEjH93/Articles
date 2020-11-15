@@ -1,0 +1,262 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 27, 2019 at 07:19 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `prvicas`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `adresa`
+--
+
+CREATE TABLE `adresa` (
+  `id_adrese` int(11) NOT NULL,
+  `mesto` varchar(50) NOT NULL,
+  `broj` varchar(10) NOT NULL,
+  `ptt` varchar(7) NOT NULL,
+  `id_kupac` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `adresa`
+--
+
+INSERT INTO `adresa` (`id_adrese`, `mesto`, `broj`, `ptt`, `id_kupac`) VALUES
+(1, 'Bg', '12', '11000', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `artikal`
+--
+
+CREATE TABLE `artikal` (
+  `id_artikal` int(11) NOT NULL,
+  `naziv_artikla` varchar(50) DEFAULT NULL,
+  `bar_kod` varchar(13) DEFAULT NULL,
+  `cena` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `artikal`
+--
+
+INSERT INTO `artikal` (`id_artikal`, `naziv_artikla`, `bar_kod`, `cena`) VALUES
+(3, 'smoki', '13234', 50),
+(4, 'krem bananica', '1234', 12),
+(5, 'plazma', '12344', 120),
+(6, 'perfex', '122', 120);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `korisnik`
+--
+
+CREATE TABLE `korisnik` (
+  `id_usera` int(11) NOT NULL,
+  `username` varchar(15) DEFAULT NULL,
+  `password` varchar(15) DEFAULT NULL,
+  `ime` varchar(15) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `korisnik`
+--
+
+INSERT INTO `korisnik` (`id_usera`, `username`, `password`, `ime`, `status`) VALUES
+(1, 'dejan', 'dejan', 'Dejan', 1),
+(2, 'dimitrije', 'dimitrije', 'd', 1),
+(3, 'sloba', 'sloba', 'Sloba', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kupac`
+--
+
+CREATE TABLE `kupac` (
+  `id_kupac` int(11) NOT NULL,
+  `poslovno_ime` varchar(50) NOT NULL,
+  `pib` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kupac`
+--
+
+INSERT INTO `kupac` (`id_kupac`, `poslovno_ime`, `pib`) VALUES
+(3, 'Dejan str', '1234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `racun`
+--
+
+CREATE TABLE `racun` (
+  `id_racun` int(11) NOT NULL,
+  `broj_racuna` varchar(10) NOT NULL,
+  `id_kupac` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `racun`
+--
+
+INSERT INTO `racun` (`id_racun`, `broj_racuna`, `id_kupac`) VALUES
+(1, '1', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `racun_stavke`
+--
+
+CREATE TABLE `racun_stavke` (
+  `id_rs` int(11) NOT NULL,
+  `id_artikal` int(11) NOT NULL,
+  `id_racun` int(11) NOT NULL,
+  `kolicina` int(11) NOT NULL,
+  `redni_broj_stavke` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `racun_stavke`
+--
+
+INSERT INTO `racun_stavke` (`id_rs`, `id_artikal`, `id_racun`, `kolicina`, `redni_broj_stavke`) VALUES
+(1, 4, 1, 3, 1),
+(2, 5, 1, 5, 2);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `adresa`
+--
+ALTER TABLE `adresa`
+  ADD PRIMARY KEY (`id_adrese`),
+  ADD UNIQUE KEY `id_kupac` (`id_kupac`);
+
+--
+-- Indexes for table `artikal`
+--
+ALTER TABLE `artikal`
+  ADD PRIMARY KEY (`id_artikal`);
+
+--
+-- Indexes for table `korisnik`
+--
+ALTER TABLE `korisnik`
+  ADD PRIMARY KEY (`id_usera`);
+
+--
+-- Indexes for table `kupac`
+--
+ALTER TABLE `kupac`
+  ADD PRIMARY KEY (`id_kupac`);
+
+--
+-- Indexes for table `racun`
+--
+ALTER TABLE `racun`
+  ADD PRIMARY KEY (`id_racun`),
+  ADD KEY `id_kupac` (`id_kupac`);
+
+--
+-- Indexes for table `racun_stavke`
+--
+ALTER TABLE `racun_stavke`
+  ADD PRIMARY KEY (`id_rs`),
+  ADD KEY `id_artikal` (`id_artikal`),
+  ADD KEY `id_racun` (`id_racun`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `adresa`
+--
+ALTER TABLE `adresa`
+  MODIFY `id_adrese` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `artikal`
+--
+ALTER TABLE `artikal`
+  MODIFY `id_artikal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `korisnik`
+--
+ALTER TABLE `korisnik`
+  MODIFY `id_usera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `kupac`
+--
+ALTER TABLE `kupac`
+  MODIFY `id_kupac` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `racun`
+--
+ALTER TABLE `racun`
+  MODIFY `id_racun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `racun_stavke`
+--
+ALTER TABLE `racun_stavke`
+  MODIFY `id_rs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `adresa`
+--
+ALTER TABLE `adresa`
+  ADD CONSTRAINT `adresa_ibfk_1` FOREIGN KEY (`id_kupac`) REFERENCES `kupac` (`id_kupac`);
+
+--
+-- Constraints for table `racun`
+--
+ALTER TABLE `racun`
+  ADD CONSTRAINT `racun_ibfk_1` FOREIGN KEY (`id_kupac`) REFERENCES `kupac` (`id_kupac`);
+
+--
+-- Constraints for table `racun_stavke`
+--
+ALTER TABLE `racun_stavke`
+  ADD CONSTRAINT `racun_stavke_ibfk_1` FOREIGN KEY (`id_artikal`) REFERENCES `artikal` (`id_artikal`),
+  ADD CONSTRAINT `racun_stavke_ibfk_2` FOREIGN KEY (`id_racun`) REFERENCES `racun` (`id_racun`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
